@@ -26,7 +26,7 @@
         <h2>Create Account</h2>
         <p class="subtitle">Fill in the details to get started.</p>
 
-        <form action="{{ route('register.post') }}" method="POST">
+        <form action="{{ route('register.post') }}" method="POST" id="registerForm">
             @csrf
 
             <div class="form-group">
@@ -86,7 +86,7 @@
                 >
             </div>
 
-            <button type="submit">Create Account</button>
+            <button type="submit" id="registerBtn">Create Account</button>
         </form>
 
         <div class="login-link">
@@ -96,6 +96,15 @@
 
     </div>
 </div>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function () {
+        const button = document.getElementById('registerBtn');
+
+        button.disabled = true;
+        button.textContent = 'Creating Account...';
+    });
+</script>
 
 </body>
 </html>

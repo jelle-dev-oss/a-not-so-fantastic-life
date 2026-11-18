@@ -33,7 +33,7 @@
         @endif
 
         @if ($errors->any())
-            <div class="error" style="margin-bottom: 15px;">
+            <div class="error" id="login-error" style="margin-bottom: 15px;">
                 {{ $errors->first() }}
             </div>
         @endif
@@ -74,6 +74,37 @@
 
     </div>
 </div>
+
+<script>
+    const errorMessage = document.getElementById('login-error');
+
+    if (errorMessage) {
+        const match = errorMessage.textContent.match(/(\d+)\s+seconds?/i);
+
+        if (match) {
+            let seconds = parseInt(match[1]);
+
+            const countdown = setInterval(function () {
+                seconds--;
+
+                if (seconds <= 0) {
+                    clearInterval(countdown);
+
+                    errorMessage.textContent =
+                        'You can try logging in again now.';
+                    return;
+                }
+
+                errorMessage.textContent =
+                    errorMessage.textContent.replace(
+                        /\d+\s+seconds?/i,
+                        seconds + ' seconds'
+                    );
+
+            }, 1000);
+        }
+    }
+</script>
 
 </body>
 </html>

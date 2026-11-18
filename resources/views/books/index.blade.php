@@ -14,7 +14,7 @@
         }
 
         body {
-            background: #f3f0e9;
+            background: #dfd4d4d5;
             min-height: 100vh;
             padding: 40px 20px;
             color: #172b4d;
@@ -93,7 +93,7 @@
         }
 
         tbody tr:hover {
-            background: #f8f6f1;
+            background: #e6e4f3;
         }
 
         tbody tr:last-child td {
@@ -212,7 +212,7 @@
                 </div>
 
                 <a href="{{ route('books.create') }}" class="add-book-btn">
-                    + Add Book
+                     Add Book
                 </a>
 
             </div>
