@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
+    
+    public function index(Request $request)
     {
-        $books = DB::table('books')->get();
+        $search = $request->input('search');
 
-        return view('books.index', compact('books'));
+        $books = DB::table('books')
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'LIKE', "%{$search}%")
+                    ->orWhere('author', 'LIKE', "%{$search}%");
+            })
+            ->get();
+
+        return view('books.index', compact('books', 'search'));
     }
+
 
     // Display the Add Book form
     public function create()
