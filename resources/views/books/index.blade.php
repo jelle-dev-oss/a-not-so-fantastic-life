@@ -141,6 +141,47 @@
         .add-book-btn:hover {
             background: #243e68;
         }
+
+        .search-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #dcd6ca;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #172b4d;
+        }
+
+        .search-btn {
+            background: #172b4d;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .search-btn:hover {
+            background: #243e68;
+        }
+
+        .clear-btn {
+            color: #172b4d;
+            text-decoration: none;
+            padding: 12px;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 
@@ -175,6 +216,30 @@
                 </a>
 
             </div>
+
+
+            <!-- Search Books -->
+            <form action="{{ route('books.index') }}" method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="search"
+                    class="search-input"
+                    placeholder="Search by book title or author..."
+                    value="{{ $search ?? '' }}"
+                >
+
+                <button type="submit" class="search-btn">
+                    Search
+                </button>
+
+                @if (!empty($search))
+                    <a href="{{ route('books.index') }}" class="clear-btn">
+                        Clear
+                    </a>
+                @endif
+
+            </form>
             
             @if (session('success'))
                 <div style="background: #e6f4ea; color: #216e39; padding: 12px 15px; border-radius: 6px; margin-bottom: 20px;">

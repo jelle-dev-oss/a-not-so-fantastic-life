@@ -12,7 +12,7 @@ class BookSeeder extends Seeder
     {
         $books = [
             [
-                'title' => 'Harry Potter',
+                'title' => 'Harry Potter and the Sorcerer\'s Stone',
                 'author' => 'J.K. Rowling',
                 'isbn' => '9780000000001',
                 'quantity' => 5,
@@ -24,10 +24,10 @@ class BookSeeder extends Seeder
                 'quantity' => 3,
             ],
             [
-                'title' => 'Noli Me Tangere',
-                'author' => 'Jose Rizal',
-                'isbn' => '9780000000003',
-                'quantity' => 4,
+                'title' => 'To Kill a Mockingbird',
+                'author' => 'Harper Lee',
+                'isbn' => '9780061120084',
+                'quantity' => 6,
             ],
             [
                 'title' => 'The Hobbit',
@@ -40,6 +40,12 @@ class BookSeeder extends Seeder
                 'author' => 'Lewis Carroll',
                 'isbn' => '9780000000005',
                 'quantity' => 2,
+            ],
+            [
+                'title' => 'Pride and Prejudice',
+                'author' => 'Jane Austen',
+                'isbn' => '9780141439518',
+                'quantity' => 4,
             ],
         ];
 
