@@ -39,37 +39,52 @@ class AuthController extends Controller
     }
 
     // Authenticate user with login attempt restriction
+    
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        $key = Str::lower($request->email).'|'.$request->ip();
+    $key = Str::lower($request->email) . '|' . $request->ip();
 
+    // Check if the user has already reached 5 failed attempts
+    if (RateLimiter::tooManyAttempts($key, 5)) {
+        $seconds = RateLimiter::availableIn($key);
+
+        return back()->withErrors([
+            'email' => "Too many login attempts. Please try again in {$seconds} seconds."
+        ])->onlyInput('email');
+    }
+
+    // Check login credentials
+    if (Auth::attempt($request->only('email', 'password'))) {
+
+        RateLimiter::clear($key);
+
+        $request->session()->regenerate();
+
+        return redirect()->intended('/books');
+    }
+
+        // Count the failed attempt
+        RateLimiter::hit($key, 60);
+
+        // Immediately lock the user after the 5th failed attempt
         if (RateLimiter::tooManyAttempts($key, 5)) {
             $seconds = RateLimiter::availableIn($key);
 
             return back()->withErrors([
-                'email' => "Too many login attempts. Try again in {$seconds} seconds.",
+                'email' => "Account temporarily locked due to 5 failed login attempts. Please try again in {$seconds} seconds."
             ])->onlyInput('email');
         }
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            RateLimiter::clear($key);
-
-            $request->session()->regenerate();
-
-            return redirect()->intended('/books');
-        }
-
-        RateLimiter::hit($key, 60);
-
         return back()->withErrors([
-            'email' => 'Invalid email or password.',
+            'email' => 'Invalid email or password.'
         ])->onlyInput('email');
     }
+
 
     // Log out user
     public function logout(Request $request)
